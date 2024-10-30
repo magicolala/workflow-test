@@ -39,6 +39,7 @@
     {{ parent() }}
     <script>
         document.getElementById('add-config').addEventListener('click', function() {
+						console.log('click');
             const collection = document.querySelector('.config-collection');
             const prototype = collection.dataset.prototype;
             const index = collection.children.length;
