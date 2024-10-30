@@ -1,0 +1,53 @@
+{% extends '@Workflow/layout.html.twig' %}
+
+{% block content %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1>New Workflow</h1>
+    </div>
+
+    {{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    {{ form_label(form.name) }}
+                    {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.name) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.config) }}
+                    <div class="config-collection" data-prototype="{{ form_widget(form.config.vars.prototype)|e('html_attr') }}">
+                        {% for config in form.config %}
+                            <div class="config-item mb-2">
+                                {{ form_widget(config, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary btn-sm mt-2" id="add-config">Add Configuration</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a href="{{ path('workflow_index') }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.getElementById('add-config').addEventListener('click', function() {
+            const collection = document.querySelector('.config-collection');
+            const prototype = collection.dataset.prototype;
+            const index = collection.children.length;
+            const newForm = prototype.replace(/__name__/g, index);
+            
+            const div = document.createElement('div');
+            div.classList.add('config-item', 'mb-2');
+            div.innerHTML = newForm;
+            collection.appendChild(div);
+        });
+    </script>
+{% endblock %}

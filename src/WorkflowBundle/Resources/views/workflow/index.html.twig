@@ -1,0 +1,74 @@
+{% extends '@Workflow/layout.html.twig' %}
+
+{% block content %}
+	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+		<h1>Workflows</h1>
+		<div class="btn-toolbar mb-2 mb-md-0">
+			<a href="{{ path('workflow_new') }}" class="btn btn-primary">Create New Workflow</a>
+		</div>
+	</div>
+
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Status</th>
+					<th>Created At</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for workflow in workflows %}
+					<tr>
+						<td>{{ workflow.id }}</td>
+						<td>{{ workflow.name }}</td>
+						<td>
+							<span class="badge bg-{{ workflow.status == 'draft' ? 'warning' : 'success' }}">
+								{{ workflow.status }}
+							</span>
+						</td>
+						<td>{{ workflow.createdAt|date('Y-m-d H:i') }}</td>
+						<td>
+							<div class="btn-group">
+								{# <a href="{{ path('workflow_edit', {id: workflow.id}) }}" class="btn btn-sm btn-outline-secondary">Edit</a> #}
+								{# <a href="{{ path('workflow_show', {id: workflow.id}) }}" class="btn btn-sm btn-outline-primary">View</a> #}
+								{# <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ workflow.id }}">Delete</button> #}
+							</div>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="5" class="text-center">No workflows found</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+
+	{% for workflow in workflows %}
+		<div class="modal fade" id="deleteModal{{ workflow.id }}" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Confirm Delete</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+					</div>
+					<div class="modal-body">
+						Are you sure you want to delete workflow "{{ workflow.name }}"?
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+						{# <form action="{{ path('workflow_delete', {id: workflow.id}) }}" method="post" style="display: inline;">
+							<input type="hidden" name="_method" value="DELETE">
+							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ workflow.id) }}">
+							<button type="submit" class="btn btn-danger">Delete</button>
+						</form> #}
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+{% endblock %}
+
