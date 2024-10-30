@@ -1,4 +1,4 @@
 services:
-    App\WorkflowBundle\Service\WorkflowService:
+    App\WorkflowBundle\Service\WorkflowManager:
         arguments:
             $entityManager: '@doctrine.orm.entity_manager'

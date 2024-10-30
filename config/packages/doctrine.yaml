@@ -18,12 +18,18 @@ doctrine:
             Doctrine\DBAL\Platforms\PostgreSQLPlatform: identity
         auto_mapping: true
         mappings:
-            App:
+            # App:
+            #     type: attribute
+            #     is_bundle: false
+            #     dir: '%kernel.project_dir%/src/Entity'
+            #     prefix: 'App\Entity'
+            #     alias: App
+            WorkflowBundle:
+                is_bundle: true
                 type: attribute
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
+                dir: 'Entity'
+                prefix: 'App\WorkflowBundle\Entity'
+                alias: Workflow
         controller_resolver:
             auto_mapping: false
 
